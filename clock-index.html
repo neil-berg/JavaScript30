@@ -6,8 +6,8 @@
 </head>
 <body>
 
-
     <div class="clock">
+      <p class="clock-display"></p>
       <div class="clock-face">
         <div class="hand hour-hand"></div>
         <div class="hand min-hand"></div>
@@ -18,7 +18,7 @@
 
   <style>
     html {
-      background: #018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
+      background: url(https://source.unsplash.com/0ZPSX_mQ3xI);
       background-size: cover;
       font-family: 'helvetica neue';
       text-align: center;
@@ -37,7 +37,7 @@
     .clock {
       width: 30rem;
       height: 30rem;
-      border: 20px solid white;
+      border: 30px solid orangered;
       border-radius: 50%;
       margin: 50px auto;
       position: relative;
@@ -47,6 +47,16 @@
         inset 0 0 0 3px #EFEFEF,
         inset 0 0 10px black,
         0 0 10px rgba(0,0,0,0.2);
+      transition: all 0.5s;
+    }
+
+    .clock-display {
+      font-size: 2em;
+      position: absolute;
+      top: -40%;
+      left: 25%;
+      display: inline;
+      color: rgb(8, 50, 53);
     }
 
     .clock-face {
@@ -67,22 +77,35 @@
       transition: all 0.075s;
       transition-timing-function: cubic-bezier(0.26, 2.49, 0.71, 0.74);
     }
+    
+    .second-hand {
+      background: rgb(236, 67, 67);
+      height: 4px;
+    }
 
   </style>
 
   <script>
     
+    const clock = document.querySelector('.clock');
     const hand = document.querySelector('.hand')
     const secondHand = document.querySelector('.second-hand');
     const minHand = document.querySelector('.min-hand');
     const hourHand = document.querySelector('.hour-hand');
-    
+    const clockDisplay = document.querySelector('.clock-display');
+
     function setDate() {
       const now = new Date();
       const seconds = now.getSeconds();
       const mins = now.getMinutes();
       const hour = now.getHours();
-      
+
+      // Update the display
+      clockDisplay.textContent = hour.toString().padStart(2, '0') +
+       ":" + mins.toString().padStart(2, '0') +
+       ":" + seconds.toString().padStart(2, '0');
+  
+
       // Need to add 90 degrees to account for the 
       // +90 initial transform in CSS above
       const secondsDegrees = ((seconds / 60) * 360) + 90;
@@ -99,6 +122,27 @@
         secondHand.style.transitionProperty = "none";
         minHand.style.transitionPorperty = "none";
         hourHand.style.transitionProperty = "none";
+      }
+
+      // Transition the clock border based on the seconds
+      if (seconds >= 0 && seconds < 10) {
+        let lightness = 80 - (seconds * 3);
+        clock.style.borderColor = `hsl(0, 50%, ${lightness}%)`;
+      } else if (seconds >= 10 && seconds < 20) {
+        let lightness = 80 - ((seconds - 10) * 3);
+        clock.style.borderColor = `hsl(39, 50%, ${lightness}%`;
+      } else if (seconds >= 20 && seconds < 30) {
+        let lightness = 80 - ((seconds - 20) * 3)
+        clock.style.borderColor = `hsl(60, 50%, ${lightness}%)`;
+      } else if (seconds >= 30 && seconds < 40) {
+        let lightness = 80 - ((seconds - 30) * 3);
+        clock.style.borderColor = `hsl(120, 50%, ${lightness}%)`;
+      } else if (seconds >= 40 && seconds < 50) {
+        let lightness = 80 - ((seconds - 40) * 3);
+        clock.style.borderColor = `hsl(240, 50%, ${lightness}%)`;
+      } else {
+        let lightness = 80 - ((seconds - 50) * 3);
+        clock.style.borderColor = `hsl(300, 76%, ${lightness}%)`;
       }
     }
 

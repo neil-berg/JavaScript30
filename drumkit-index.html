@@ -7,44 +7,76 @@
 </head>
 <body>
   <div class="keys">
-    <div data-key="65" class="key">
-      <kbd>A</kbd>
-      <span class="sound">clap</span>
+    
+    <!-- Brass -->
+    <div class="keys-brass">
+      <div data-key=82 class="key">
+        <kbd>R</kbd>
+        <span class="sound">frenchhorn</span>
+      </div>
+      <div data-key=84 class="key">
+        <kbd>T</kbd>
+        <span class="sound">saxophone</span>
+      </div>
+      <div data-key=89 class="key">
+        <kbd>Y</kbd>
+        <span class="sound">trumpet</span>
+      </div>
+      <div data-key=85 class="key">
+        <kbd>U</kbd>
+        <span class="sound">tuba</span>
+      </div>
     </div>
-    <div data-key="83" class="key">
-      <kbd>S</kbd>
-      <span class="sound">hihat</span>
-    </div>
-    <div data-key="68" class="key">
-      <kbd>D</kbd>
-      <span class="sound">kick</span>
-    </div>
-    <div data-key="70" class="key">
-      <kbd>F</kbd>
-      <span class="sound">openhat</span>
-    </div>
-    <div data-key="71" class="key">
-      <kbd>G</kbd>
-      <span class="sound">boom</span>
-    </div>
-    <div data-key="72" class="key">
-      <kbd>H</kbd>
-      <span class="sound">ride</span>
-    </div>
-    <div data-key="74" class="key">
-      <kbd>J</kbd>
-      <span class="sound">snare</span>
-    </div>
-    <div data-key="75" class="key">
-      <kbd>K</kbd>
-      <span class="sound">tom</span>
-    </div>
-    <div data-key="76" class="key">
-      <kbd>L</kbd>
-      <span class="sound">tink</span>
-    </div>
+    
+    <!-- Drums -->
+    <div class="keys-drums">
+      <div data-key="65" class="key">
+        <kbd>A</kbd>
+        <span class="sound">clap</span>
+      </div>
+      <div data-key="83" class="key">
+        <kbd>S</kbd>
+        <span class="sound">hihat</span>
+      </div>
+      <div data-key="68" class="key">
+        <kbd>D</kbd>
+        <span class="sound">kick</span>
+      </div>
+      <div data-key="70" class="key">
+        <kbd>F</kbd>
+        <span class="sound">openhat</span>
+      </div>
+      <div data-key="71" class="key">
+        <kbd>G</kbd>
+        <span class="sound">boom</span>
+      </div>
+      <div data-key="72" class="key">
+        <kbd>H</kbd>
+        <span class="sound">ride</span>
+      </div>
+      <div data-key="74" class="key">
+        <kbd>J</kbd>
+        <span class="sound">snare</span>
+      </div>
+      <div data-key="75" class="key">
+        <kbd>K</kbd>
+        <span class="sound">tom</span>
+      </div>
+      <div data-key="76" class="key">
+        <kbd>L</kbd>
+        <span class="sound">tink</span>
+      </div>
+    </div> 
+    
   </div>
 
+  <!-- Brass -->
+  <audio data-key="82" src="sounds/french_horn.wav"></audio>
+  <audio data-key="84" src="sounds/saxophone.wav"></audio>
+  <audio data-key="89" src="sounds/trumpet.wav"></audio>
+  <audio data-key="85" src="sounds/tuba.wav"></audio>
+
+  <!-- Drums -->
   <audio data-key="65" src="sounds/clap.wav"></audio>
   <audio data-key="83" src="sounds/hihat.wav"></audio>
   <audio data-key="68" src="sounds/kick.wav"></audio>
@@ -54,6 +86,7 @@
   <audio data-key="74" src="sounds/snare.wav"></audio>
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
+
 
 <script>
 

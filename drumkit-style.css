@@ -10,16 +10,7 @@ body,html {
   font-family: sans-serif;
 }
 
-h1 {
-  color: white;
-}
-
 .keys {
-  /* display: flex;
-  flex: 1;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center; */
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -28,19 +19,17 @@ h1 {
   justify-content: center;
 }
 
-.keys-brass, .keys-drums {
+.keys-brass, .keys-drums, .keys-synth {
   display: flex;
   flex: 1;
-  height: 150px;
   align-items: center;
   justify-content: center;
 }
 
 .key {
-  border: .4rem solid rgb(226, 216, 188);
+  font-size: 1.5rem;
   border-radius: .5rem;
   margin: 1rem;
-  font-size: 1.5rem;
   padding: 1rem .5rem;
   transition: all .07s ease;
   width: 10rem;
@@ -50,10 +39,35 @@ h1 {
   text-shadow: 0 0 .5rem black;
 }
 
+.keys-brass > .key {
+  border: .4rem solid rgb(145, 228, 134);
+}
+
+.keys-synth > .key {
+  border: .4rem solid rgb(201, 134, 228);
+}
+
+.keys-drums > .key {
+  border: .4rem solid rgb(226, 216, 188); 
+}
+
 .playing {
   transform: scale(1.1);
-  border-color: #ffc600;
-  box-shadow: 0 0 1rem #ffc600;
+}
+
+.keys-brass .playing {
+  border-color: rgb(145, 228, 134);
+  box-shadow: 0 0 2rem rgb(145, 228, 134);
+}
+
+.keys-synth .playing {
+  border-color: rgb(201, 134, 228);
+  box-shadow: 0 0 2rem rgb(201, 134, 228);
+}
+
+.keys-drums .playing {
+  border-color: rgb(226, 216, 188);
+  box-shadow: 0 0 2rem rgb(226, 216, 188);
 }
 
 kbd {

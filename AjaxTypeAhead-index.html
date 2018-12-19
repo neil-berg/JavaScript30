@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="ajax-style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const cities = [];
+
+fetch(endpoint)
+  .then(blob => blob.json())
+  .then(data => cities.push(...data))
+
+function formatPopulation(population) {
+  return population.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    const reg = new RegExp(wordToMatch, 'gi');
+    return place.city.match(reg) || place.state.match(reg);
+  })
+}
+
+function displayMatches() {
+  const matchArr = findMatches(this.value, cities);
+  const html = matchArr.map(place => {
+    // highlight the searched string
+    const reg = new RegExp(this.value, 'gi');
+    const cityWithHighlights = place.city.replace(reg, 
+      `<span class="hl">${this.value}</span>`);
+    const stateWithHighlights = place.state.replace(reg, 
+      `<span class="hl">${this.value}</span>`);
+    return `
+      <li>
+        <span class="name">${cityWithHighlights}, ${stateWithHighlights}</span>
+        <span class="population">${formatPopulation(place.population)}</span>
+      </li>
+      `;
+  }).join('');
+
+  suggestions.innerHTML = html;
+}
+
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+searchInput.addEventListener('change', displayMatches);
+searchInput.addEventListener('keyup', displayMatches);
+
+</script>
+</body>
+</html>

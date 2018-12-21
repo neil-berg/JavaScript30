@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Baby Names</title>
+  <link rel="stylesheet" href="babyNames-style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    
+    <div class="year-dropdown">
+      <span class="text-dropdown">Select the year</span>
+      <select name="years">
+        <option value="2012">2012</option>
+        <option value="2013">2013</option>
+        <option value="2014">2014</option>
+        <option value="2015">2015</option>
+        <option value="2016">2016</option>
+      </select> 
+    </div>
+
+    <input type="text" class="search" placeholder="Baby Name">
+    <div class="names">
+      <ul class="girl-names">
+        <li>Filter for popular</li>
+        <li>girl's names</li>
+      </ul>
+      <ul class="boy-names">
+        <li>Filter for popular</li>
+        <li>boy's names</li>
+      </ul>
+    </div>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const cities = [];
+
+fetch(endpoint)
+  .then(blob => blob.json())
+  .then(data => cities.push(...data))
+
+function formatPopulation(population) {
+  return population.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    const reg = new RegExp(wordToMatch, 'gi');
+    return place.city.match(reg) || place.state.match(reg);
+  })
+}
+
+function displayMatches() {
+  const matchArr = findMatches(this.value, cities);
+  const html = matchArr.map(place => {
+    // highlight the searched string
+    const reg = new RegExp(this.value, 'gi');
+    const cityWithHighlights = place.city.replace(reg, 
+      `<span class="hl">${this.value}</span>`);
+    const stateWithHighlights = place.state.replace(reg, 
+      `<span class="hl">${this.value}</span>`);
+    return `
+      <li>
+        <span class="name">${cityWithHighlights}, ${stateWithHighlights}</span>
+        <span class="population">${formatPopulation(place.population)}</span>
+      </li>
+      `;
+  }).join('');
+
+  suggestions.innerHTML = html;
+}
+
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+searchInput.addEventListener('change', displayMatches);
+searchInput.addEventListener('keyup', displayMatches);
+
+</script>
+</body>
+</html>

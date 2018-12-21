@@ -19,11 +19,18 @@ input {
   display: flex;
   width: 100%;
   justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 20px 0; 
 }
 
-.year-dropdown .text-dropdown {
-  padding-right: 10px;
-  padding-bottom: 10px;
+.year-dropdown span {
+  margin-right: 10px;
+}
+
+select {
+  font-size: 0.75em;
+  width: 70px;
 }
 
 .search-form {
@@ -54,6 +61,7 @@ input.search {
   margin: 0;
   padding: 0;
   position: relative;
+  right: 20px;
   /*perspective: 20px;*/
 }
 
@@ -68,29 +76,28 @@ input.search {
   display: flex;
   justify-content: space-between;
   text-transform: capitalize;
+  width: 200px;
 }
 
 .girl-names li:nth-child(even) {
   transform: perspective(100px) rotateX(-3deg) translateY(3px) scale(1.001);
-  background: linear-gradient(to bottom, rgb(248, 246, 193) 0%,  #ffffff 100%);
+  background: linear-gradient(to bottom, rgb(250, 249, 237) 0%,  #ffffff 100%);
 }
 
 .girl-names li:nth-child(odd) {
   transform: perspective(100px) rotateX(3deg) translateY(3px);
-  background: linear-gradient(to bottom,  #ffffff 0%, rgb(248, 246, 193) 100%);
+  background: linear-gradient(to bottom,  #ffffff 0%, rgb(250, 249, 237) 100%);
 }
 
 .boy-names li:nth-child(even) {
   transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
-  background: linear-gradient(to bottom, #ffffff 0%, rgb(220, 233, 228) 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, rgb(237, 243, 241) 100%);
 }
 
 .boy-names li:nth-child(odd) {
   transform: perspective(100px) rotateX(-3deg) translateY(3px);
-  background: linear-gradient(to bottom, rgb(220, 233, 228) 0%, #ffffff 100%);
+  background: linear-gradient(to bottom, rgb(237, 243, 241) 0%, #ffffff 100%);
 }
-
-
 
 span.population {
   font-size: 15px;

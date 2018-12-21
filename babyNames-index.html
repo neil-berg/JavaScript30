@@ -10,8 +10,8 @@
   <form class="search-form">
     
     <div class="year-dropdown">
-      <span class="text-dropdown">Select the year</span>
-      <select name="years">
+      <!-- <span class="text-dropdown">Select the year</span> -->
+      <span>Select the year</span><select class="years" name="years">
         <option value="2012">2012</option>
         <option value="2013">2013</option>
         <option value="2014">2014</option>
@@ -33,13 +33,50 @@
     </div>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+const yearBtn = document.querySelector('.years');
+
+const boys = [];
+const girls = [];
+const endpoint2012Boy = 'https://raw.githubusercontent.com/aruljohn/popular-baby-names/master/boy_names_2012.json'
+const endpoint2012Girl = 'https://raw.githubusercontent.com/aruljohn/popular-baby-names/master/girl_names_2012.json'
+
+fetch(endpoint2012Boy)
+  .then(blob => blob.json())
+  .then(data => boys.push(...data.names));
+
+fetch(endpoint2012Girl)
+  .then(blob => blob.json())
+  .then(data => girls.push(...data.names));
+
+// Load other years if button is changed
+yearBtn.addEventListener('change', loadYearData);
+
+function loadYearData() {
+  
+  console.log(yearBtn.value)
+
+  const boys = [];
+  const girls = [];
+
+  const endpointBoy = `https://raw.githubusercontent.com/aruljohn/popular-baby-names/master/boy_names_${yearBtn.value}.json`
+  const endpointGirl = `https://raw.githubusercontent.com/aruljohn/popular-baby-names/master/girl_names_${yearBtn.value}.json`
+
+  fetch(endpointBoy)
+    .then(blob => blob.json())
+    .then(data => boys.push(...data.names));
+
+  fetch(endpointGirl)
+    .then(blob => blob.json())
+    .then(data => girls.push(...data.names));
+}
+
 
 const cities = [];
 
-fetch(endpoint)
-  .then(blob => blob.json())
-  .then(data => cities.push(...data))
+// fetch(endpoint)
+//   .then(blob => blob.json())
+//   .then(data => cities.push(...data))
 
 function formatPopulation(population) {
   return population.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")

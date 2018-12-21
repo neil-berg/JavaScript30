@@ -34,86 +34,127 @@
   </form>
 <script>
 
+// Query the buttons and search displays
 const yearBtn = document.querySelector('.years');
+const searchInput = document.querySelector('.search');
+const boyList = document.querySelector('.boy-names');
+const girlList = document.querySelector('.girl-names');
 
-const boys = [];
-const girls = [];
-const endpoint2012Boy = 'https://raw.githubusercontent.com/aruljohn/popular-baby-names/master/boy_names_2012.json'
-const endpoint2012Girl = 'https://raw.githubusercontent.com/aruljohn/popular-baby-names/master/girl_names_2012.json'
+// Event listeners
+yearBtn.addEventListener('change', fetchData);
+//yearBtn.addEventListener('click', fetchData);
 
-fetch(endpoint2012Boy)
-  .then(blob => blob.json())
-  .then(data => boys.push(...data.names));
+searchInput.addEventListener('change', filterNames);
+//searchInput.addEventListener('keydown', filterNames);
 
-fetch(endpoint2012Girl)
-  .then(blob => blob.json())
-  .then(data => girls.push(...data.names));
-
-// Load other years if button is changed
-yearBtn.addEventListener('change', loadYearData);
-
-function loadYearData() {
-  
-  console.log(yearBtn.value)
-
-  const boys = [];
-  const girls = [];
-
+function fetchData() {
   const endpointBoy = `https://raw.githubusercontent.com/aruljohn/popular-baby-names/master/boy_names_${yearBtn.value}.json`
-  const endpointGirl = `https://raw.githubusercontent.com/aruljohn/popular-baby-names/master/girl_names_${yearBtn.value}.json`
+
+  const endpointGirl =`https://raw.githubusercontent.com/aruljohn/popular-baby-names/master/girl_names_${yearBtn.value}.json`
 
   fetch(endpointBoy)
     .then(blob => blob.json())
-    .then(data => boys.push(...data.names));
+    .then(data => {
+      return displayNames('boy', data.names);
+    });
 
   fetch(endpointGirl)
     .then(blob => blob.json())
-    .then(data => girls.push(...data.names));
+    .then(data => {
+      return displayNames('girl', data.names);
+    });
 }
 
+function displayNames(gender, nameArr) {
+  const html = nameArr.map(name => {
+    return `<li>
+      <span class="name">${name}</span> 
+      </li>`
+  }).join('')
+  gender === 'boy' ? boyList.innerHTML = html : girlList.innerHTML = html;
+}
 
-const cities = [];
+function filterNames() {                     
+  // Create the regular expression to match search input
+  const reg = new RegExp(this.value, 'gi');
+  
+  // Create arrays of the current list of boy and girl names
+  const boyNames = Array.from(document.querySelectorAll('.boy-names li .name'))
+                        .map(item => item.textContent);
+  const girlNames = Array.from(document.querySelectorAll('.girl-names li .name'))
+                        .map(item => item.textContent);
+
+  const boyMatches = boyNames.filter(name => name.match(reg))
+  const girlMatches = girlNames.filter(name => name.match(reg))
+  
+  displayNames('boy', boyMatches);
+  displayNames('girl', girlMatches);
+}
+
+// function findMatches(wordToMatch, cities) {
+//   return cities.filter(place => {
+//     const reg = new RegExp(wordToMatch, 'gi');
+//     return place.city.match(reg) || place.state.match(reg);
+//   })
+
+// const htmlBoys = boys.map(name => {
+//   return `
+//   <li>
+//     <span>${this.value}</span>
+//   </li>
+//   `;
+// }).join('');
+
+
+// function displayMatches() {
+//   const matchArr = findMatches(this.value, cities);
+//   const html = matchArr.map(place => {
+//     // highlight the searched string
+//     const reg = new RegExp(this.value, 'gi');
+//     const cityWithHighlights = place.city.replace(reg, 
+//       `<span class="hl">${this.value}</span>`);
+//     const stateWithHighlights = place.state.replace(reg, 
+//       `<span class="hl">${this.value}</span>`);
+//     return `
+//       <li>
+//         <span class="name">${cityWithHighlights}, ${stateWithHighlights}</span>
+//         <span class="population">${formatPopulation(place.population)}</span>
+//       </li>
+//       `;
+//   }).join('');
+
+//   suggestions.innerHTML = html;
+// }
+
+
+// Load other years if button is changed
+// yearBtn.addEventListener('change', loadYearData);
+// yearBtn.addEventListener('click', loadYearData);
+
+// const cities = [];
 
 // fetch(endpoint)
 //   .then(blob => blob.json())
 //   .then(data => cities.push(...data))
 
-function formatPopulation(population) {
-  return population.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-}
+// function formatPopulation(population) {
+//   return population.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+// }
 
-function findMatches(wordToMatch, cities) {
-  return cities.filter(place => {
-    const reg = new RegExp(wordToMatch, 'gi');
-    return place.city.match(reg) || place.state.match(reg);
-  })
-}
+// function findMatches(wordToMatch, cities) {
+//   return cities.filter(place => {
+//     const reg = new RegExp(wordToMatch, 'gi');
+//     return place.city.match(reg) || place.state.match(reg);
+//   })
+// }
 
-function displayMatches() {
-  const matchArr = findMatches(this.value, cities);
-  const html = matchArr.map(place => {
-    // highlight the searched string
-    const reg = new RegExp(this.value, 'gi');
-    const cityWithHighlights = place.city.replace(reg, 
-      `<span class="hl">${this.value}</span>`);
-    const stateWithHighlights = place.state.replace(reg, 
-      `<span class="hl">${this.value}</span>`);
-    return `
-      <li>
-        <span class="name">${cityWithHighlights}, ${stateWithHighlights}</span>
-        <span class="population">${formatPopulation(place.population)}</span>
-      </li>
-      `;
-  }).join('');
 
-  suggestions.innerHTML = html;
-}
 
-const searchInput = document.querySelector('.search');
-const suggestions = document.querySelector('.suggestions');
+// const searchInput = document.querySelector('.search');
+// const suggestions = document.querySelector('.suggestions');
 
-searchInput.addEventListener('change', displayMatches);
-searchInput.addEventListener('keyup', displayMatches);
+// searchInput.addEventListener('change', displayMatches);
+// searchInput.addEventListener('keyup', displayMatches);
 
 </script>
 </body>

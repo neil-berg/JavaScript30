@@ -6,19 +6,15 @@
 </head>
 <style>
   html, body {
-    margin: 0;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
   }
 
   .selections {
     display: flex;
     align-items: center;
-    width: 500px;
-    margin: 0 auto;
-  }
-
-  .selections > div {
-    margin: 10px;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto
   }
 
   #draw {
@@ -26,20 +22,32 @@
     border: 3px grey solid;
     margin: 10px;
   }
+
+  .item {
+    padding: auto;
+    display: flex;
+    align-items: center;
+    margin: 10px;
+  }
+
+  input + label {
+    margin-left: 8px;
+  }
+
 </style>
 <body>
 
   <!-- User selections for the canas -->
   <div class="selections">
-    <div class="bg-color">
+    <div class="item">
       <input type="color" name="bg-color" id="bg-color" value="#ffffff">
       <label for="bg-color">Background</label>
     </div>
-    <div class="pen-color">
+    <div class="item">
       <input type="color" name="pen-color" id="pen-color" value="#ff0000">
       <label for="pen-color">Color</label>
     </div>
-    <div class="linewidth">
+    <div class="item">
       <input type="range" name="linewidth" id="linewidth" min="1" max="100" value="10">
       <label for="linewidth">Line Width</label>
     </div>

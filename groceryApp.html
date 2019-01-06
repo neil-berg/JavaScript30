@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="groceryApp-styles.css">
+  <title>Grocery App</title>
+</head>
+<style> 
+</style>
+<body>
+
+  <div class="wrapper">
+    <h2>My Grocery List</h2>
+    <ul class="groceries">
+      <li>Add some items!</li>
+    </ul>
+    <p class="total">Total items: 
+      <span class="total-groceries"></span>
+    </p>
+    <form action="#" class="add-items">
+      <input type="text" name='item' placeholder="Grocery Item"/>
+      <input type="submit" value="+ Add Item"/>  
+    </form>
+  </div>
+
+
+<script>
+  const textInput = document.querySelector('input[type=text]');
+  const submitInput = document.querySelector('input[type=submit]');
+  const form = document.querySelector('.add-items');
+  const groceryList = document.querySelector('.groceries');
+
+  const items = JSON.parse(localStorage.getItem('items')) || [];
+
+  function addItem(e) {
+    e.preventDefault();
+    const text = (this.querySelector('[name=item]')).value;
+    
+    const item = {
+      text,
+      amount: 0
+    }
+
+    items.push(item);
+    populateList(items, groceryList) // add this item to the DOM
+    localStorage.setItem('items', JSON.stringify(items)); // store locally
+    this.reset(); //reset input for the next item
+  }
+
+  function populateList(items, groceryList) {    
+    groceryList.innerHTML = items.map(item => {      
+      return`
+        <li class="grocery-item">
+          <span class="item-name">${item.text}</span>
+          <div class="amount-row">
+            <label for="amount">Amount:</label>
+            <input type="number" data-item=${item.text} min="0" value=${item.amount} />  
+          </div>  
+      </li>
+      `}).join('');
+  }
+
+  function updateAmount(e) {
+    const thisItem = e.target.dataset.item;
+    const newAmount = e.target.value;
+    items.forEach(item => {
+      if (item.text == thisItem) {
+        item.amount = newAmount;
+      }
+    })
+    localStorage.setItem('items', JSON.stringify(items));
+    updateTotal(items);
+  }
+
+  function updateTotal(items) {
+    items === [] 
+      ? total = 0
+      : total = items.reduce((acc, item) => acc + Number(item.amount),0);
+    document.querySelector('.total-groceries').innerHTML = total;
+  }
+
+  form.addEventListener('submit', addItem);
+  groceryList.addEventListener('click', updateAmount);
+
+  updateTotal(items);
+  populateList(items, groceryList);
+  
+</script>
+</body>
+</html>
